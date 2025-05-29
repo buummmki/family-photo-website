@@ -1077,7 +1077,13 @@
             <h2>가족사진 촬영 예약</h2>
             <p style="text-align: center; margin-bottom: 30px; font-size: 1.2rem;">소중한 가족의 추억을 담아드립니다. 아래 정보를 입력해 주시면 연락드리겠습니다.</p>
             
-            <form id="bookingForm" method="post" target="hidden_iframe">
+            <form id="bookingForm" method="POST" action="https://formsubmit.co/thehong@example.com">
+                <!-- FormSubmit hidden fields -->
+                <input type="hidden" name="_subject" value="가족사진 촬영 예약 문의">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://buummmki.github.io/family-photo-website/thank-you.html">
+                <input type="hidden" name="_template" value="table">
+                
                 <div class="form-group">
                     <label for="name">예약자 성함 (필수)</label>
                     <input type="text" id="name" name="name" required placeholder="홍길동">
@@ -1090,6 +1096,7 @@
                         <input type="tel" id="phone2" name="phone2" required maxlength="4" placeholder="1234" style="width: 120px; padding: 15px;">
                         <input type="tel" id="phone3" name="phone3" required maxlength="4" placeholder="5678" style="width: 120px; padding: 15px;">
                     </div>
+                    <input type="hidden" id="full_phone" name="phone">
                 </div>
 
                 <div class="form-group">
@@ -1228,6 +1235,25 @@
             });
             
             handleScrollAnimation();
+            
+            // Form submission handler
+            const bookingForm = document.getElementById('bookingForm');
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function(e) {
+                    // Combine phone fields
+                    const phone1 = document.getElementById('phone1').value;
+                    const phone2 = document.getElementById('phone2').value;
+                    const phone3 = document.getElementById('phone3').value;
+                    document.getElementById('full_phone').value = phone1 + '-' + phone2 + '-' + phone3;
+                    
+                    // Show loading message
+                    const responseEl = document.getElementById('response');
+                    if (responseEl) {
+                        responseEl.style.display = 'block';
+                        responseEl.innerHTML = '<p style="color: #8d6e63;">예약 요청을 처리 중입니다...</p>';
+                    }
+                });
+            }
         });
         
         function handleScrollAnimation() {
@@ -1271,27 +1297,6 @@
         
         document.addEventListener('DOMContentLoaded', function() {
             updateCountdown();
-        });
-
-        // API URL 설정
-        var apiUrl = 'https://script.google.com/macros/s/AKfycbzkg245jQf4MKdTtm6fb24BPZJOqVw35hqAmuyxQyXE9N2fxM9lX6NUe5xGwfQ8DcSy/exec';
-        
-        // 폼 설정
-        document.getElementById('bookingForm').action = apiUrl;
-        
-        // iframe 로드 이벤트
-        document.getElementById('hidden_iframe').onload = function() {
-            var responseEl = document.getElementById('response');
-            responseEl.style.display = 'block';
-            responseEl.innerHTML = '<p style="color: green;">✅ 문의가 성공적으로 접수되었습니다. 곧 연락드리겠습니다.</p>';
-            document.getElementById('bookingForm').reset();
-        };
-        
-        // 폼 제출 이벤트 리스너
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            var responseEl = document.getElementById('response');
-            responseEl.style.display = 'block';
-            responseEl.innerHTML = '<p style="color: #8d6e63;">처리 중입니다...</p>';
         });
     </script>
 </body>
