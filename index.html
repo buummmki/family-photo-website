@@ -1077,13 +1077,7 @@
             <h2>가족사진 촬영 예약</h2>
             <p style="text-align: center; margin-bottom: 30px; font-size: 1.2rem;">소중한 가족의 추억을 담아드립니다. 아래 정보를 입력해 주시면 연락드리겠습니다.</p>
             
-            <form id="bookingForm" method="POST" action="https://formsubmit.co/thehong@example.com">
-                <!-- FormSubmit hidden fields -->
-                <input type="hidden" name="_subject" value="가족사진 촬영 예약 문의">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_next" value="https://buummmki.github.io/family-photo-website/thank-you.html">
-                <input type="hidden" name="_template" value="table">
-                
+            <form id="bookingForm" method="POST">
                 <div class="form-group">
                     <label for="name">예약자 성함 (필수)</label>
                     <input type="text" id="name" name="name" required placeholder="홍길동">
@@ -1096,7 +1090,6 @@
                         <input type="tel" id="phone2" name="phone2" required maxlength="4" placeholder="1234" style="width: 120px; padding: 15px;">
                         <input type="tel" id="phone3" name="phone3" required maxlength="4" placeholder="5678" style="width: 120px; padding: 15px;">
                     </div>
-                    <input type="hidden" id="full_phone" name="phone">
                 </div>
 
                 <div class="form-group">
@@ -1240,18 +1233,53 @@
             const bookingForm = document.getElementById('bookingForm');
             if (bookingForm) {
                 bookingForm.addEventListener('submit', function(e) {
-                    // Combine phone fields
-                    const phone1 = document.getElementById('phone1').value;
-                    const phone2 = document.getElementById('phone2').value;
-                    const phone3 = document.getElementById('phone3').value;
-                    document.getElementById('full_phone').value = phone1 + '-' + phone2 + '-' + phone3;
+                    e.preventDefault(); // 기본 제출 동작 방지
                     
-                    // Show loading message
-                    const responseEl = document.getElementById('response');
-                    if (responseEl) {
-                        responseEl.style.display = 'block';
-                        responseEl.innerHTML = '<p style="color: #8d6e63;">예약 요청을 처리 중입니다...</p>';
+                    // 폼 유효성 검사
+                    if (!bookingForm.checkValidity()) {
+                        return;
                     }
+                    
+                    // 응답 메시지 표시 준비
+                    const responseEl = document.getElementById('response');
+                    responseEl.style.display = 'block';
+                    responseEl.innerHTML = '<p style="color: #8d6e63;">예약 요청을 처리 중입니다...</p>';
+                    
+                    // 폼 데이터 수집
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        phone1: document.getElementById('phone1').value,
+                        phone2: document.getElementById('phone2').value,
+                        phone3: document.getElementById('phone3').value,
+                        concept: document.getElementById('concept').value,
+                        family_count: document.getElementById('family_count').value,
+                        ages: document.getElementById('ages').value,
+                        date: document.getElementById('date').value,
+                        message: document.getElementById('message').value
+                    };
+                    
+                    // Google Apps Script 웹 앱으로 데이터 전송
+                    fetch('https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.result === 'success') {
+                            // 성공 시 감사 페이지로 이동
+                            window.location.href = 'thank-you.html';
+                        } else {
+                            // 오류 메시지 표시
+                            responseEl.innerHTML = `<p style="color: #d9534f; padding: 10px; background-color: #f9f2f4; border-radius: 4px;">문제가 발생했습니다: ${data.message}</p>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        responseEl.innerHTML = '<p style="color: #d9534f; padding: 10px; background-color: #f9f2f4; border-radius: 4px;">서버 연결 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.</p>';
+                    });
                 });
             }
         });
