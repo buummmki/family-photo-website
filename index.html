@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가족사진 촬영 | 춘천 더홍스튜디오</title>
+    <style>
+        /* 전체 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f7f5;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #5d4037;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #5d4037;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #8d6e63;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: #6d4c41;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* 헤더 영역 - 1단계: You (주인공 소개) */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://thehong.kr/file/cheditor/20250403163048_mrbvegfa.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(141, 110, 99, 0.3), rgba(188, 170, 164, 0.3));
+            animation: gradientMove 15s ease infinite;
+            z-index: 1;
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        /* 메신저 애니메이션 스타일 */
+        .chat-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .chat-box {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        .bubble {
+            opacity: 0;
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            position: relative;
+            animation: popIn 0.5s forwards;
+            pointer-events: auto;
+        }
+
+        .daughter {
+            align-self: flex-end;
+            background-color: #e0f7fa;
+            color: #006064;
+        }
+
+        .mom {
+            align-self: flex-start;
+            background-color: #ffe0e0;
+            color: #b71c1c;
+        }
+
+        .cta-button {
+            opacity: 0;
+            margin-top: 10px;
+            align-self: center;
+            background-color: #ff9e7b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            animation: fadeIn 1s 4.5s forwards;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 20;
+            pointer-events: auto;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            background-color: #ff8a65;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* 2단계: Need (필요) */
+        .need {
+            background-color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .need h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .need p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+            line-height: 1.8;
+        }
+        
+        .highlight-text {
+            font-weight: 600;
+            color: #5d4037;
+            font-size: 1.3rem;
+            display: block;
+            margin: 20px auto;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+        
+        /* 3단계: Go (출발) */
+        .go {
+            background-color: #f9f7f5;
+            padding: 80px 0;
+        }
+        
+        .go-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .go-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .studio-features {
+            margin: 2rem 0;
+        }
+        
+        .studio-features li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            list-style: none;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .studio-features li:before {
+            content: "📌";
+            position: absolute;
+            left: 0;
+        }
+        
+        .go-gallery {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            min-width: 300px;
+        }
+        
+        .go-gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .go-gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        /* 4단계: Search (탐색) */
+        .search {
+            background-color: white;
+            padding: 80px 0;
+        }
+        
+        .search h2 {
+            margin-bottom: 40px;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #f9f7f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .process-step:after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #8d6e63;
+        }
+        
+        .process-step:last-child:after {
+            display: none;
+        }
+        
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #8d6e63;
+        }
+        
+        .process-step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .process-step p {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        /* 5단계: Find (발견) */
+        .find {
+            background-color: #f9f7f5;
+            padding: 80px 0;
+        }
+        
+        .find-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .gallery-wrapper {
+            width: 100%;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            height: 0;
+            padding-bottom: 100%;
+        }
+        
+        .gallery-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px 15px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        /* 6단계: Take (획득) */
+        .take {
+            background-color: white;
+            padding: 80px 0;
+        }
+        
+        .package-table {
+            width: 100%;
+            max-width: 700px;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .package-table tr {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .package-table tr:last-child {
+            border-bottom: none;
+        }
+        
+        .package-table td {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+        }
+        
+        .package-table td:first-child {
+            font-weight: 600;
+            color: #5d4037;
+            width: 40%;
+        }
+        
+        .price-row {
+            background-color: #f5efe9;
+            font-weight: 700;
+        }
+        
+        .price-row td {
+            padding: 20px !important;
+            font-size: 1.2rem !important;
+        }
+        
+        .limited-offer {
+            background-color: #efebe9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px auto;
+            max-width: 600px;
+            border: 2px dashed #8d6e63;
+        }
+        
+        .limited-offer h3 {
+            color: #5d4037;
+            margin-bottom: 15px;
+        }
+        
+        .limited-offer p {
+            margin-bottom: 15px;
+        }
+        
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d84315;
+            margin: 10px 0;
+        }
+        
+        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 40px 0;
+            }
+            
+            .go-content {
+                flex-direction: column;
+            }
+            
+            .go-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .process-step {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .process-step:after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -30px;
+                transform: translateX(50%);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 7단계: Return (귀환) */
+        .return {
+            background-color: #f9f7f5;
+            padding: 80px 0;
+        }
+        
+        .testimonial-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding: 0 10px;
+        }
+        
+        .testimonial-text:before,
+        .testimonial-text:after {
+            content: '"';
+            font-size: 2rem;
+            color: #d7ccc8;
+            position: absolute;
+        }
+        
+        .testimonial-text:before {
+            left: -10px;
+            top: -10px;
+        }
+        
+        .testimonial-text:after {
+            right: -10px;
+            bottom: -20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            text-align: right;
+            color: #5d4037;
+        }
+        
+        .testimonial-story {
+            margin-top: 60px;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-story h3 {
+            text-align: center;
+            padding: 20px;
+            background-color: #5d4037;
+            color: white;
+            margin: 0;
+        }
+        
+        .story-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .story-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .story-text p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        /* 8단계: Change (변화) */
+        .change {
+            background-color: white;
+            padding: 80px 0;
+        }
+        
+        .change h2 {
+            color: #5d4037;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .change-message {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: #5d4037;
+        }
+        
+        .final-cta {
+            background-color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 15px;
+            color: #333;
+        }
+        
+        .final-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #5d4037;
+            font-weight: 600;
+        }
+        
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+        
+        /* 신청 폼 */
+        .booking {
+            background-color: white;
+            padding: 80px 0;
+        }
+        
+        .booking-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f9f7f5;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        }
+        
+        /* 위치 정보 */
+        .location {
+            background-color: #f9f7f5;
+            padding: 80px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .story-content {
+                flex-direction: column;
+            }
+            
+            .story-image {
+                height: 250px;
+            }
+            
+            .change h2 {
+                font-size: 1.8rem;
+            }
+            
+            .change-message {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* 예약 폼 스타일 개선 */
+        .booking-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f9f7f5;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #5d4037;
+            font-size: 1.15rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-family: inherit;
+            background-color: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #8d6e63;
+            box-shadow: 0 0 0 2px rgba(141, 110, 99, 0.2);
+        }
+
+        .privacy-form-group {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .privacy-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .btn-large {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .booking-form {
+                padding: 30px;
+            }
+            
+            .form-group input, 
+            .form-group select {
+                padding: 12px;
+            }
+            
+            .privacy-checkbox {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1단계: You (주인공 소개) -->
+    <section class="hero">
+        <div class="chat-container">
+            <div class="chat-box">
+                <div class="bubble mom" style="animation-delay: 0.5s;">우리 아이들 결혼하고 다들 바빠서 가족사진 찍을 시간이 없네...</div>
+                <div class="bubble daughter" style="animation-delay: 1.5s;">엄마, 저희도 시간 내볼게요. 언제 찍을까요?</div>
+                <div class="bubble mom" style="animation-delay: 2.5s;">다들 바쁠 텐데... 내가 좋은 스튜디오 찾아볼게.<br>우리 가족 모두 함께 추억 남기고 싶어.</div>
+                <div class="bubble daughter" style="animation-delay: 3.5s;">엄마 좋은 생각이에요!<br>제가 도와드릴게요.</div>
+                <button class="cta-button" onclick="scrollToBooking()">가족사진 예약하기</button>
+            </div>
+        </div>
+        <div class="container hero-content">
+            <h1>소중한 우리 가족의 모습을<br>아름답게 담아보세요</h1>
+            <p>오랜만에 모인 가족, 그 특별한 순간을 영원히 간직하세요</p>
+            <a href="#booking" class="btn">지금 바로 예약하기</a>
+        </div>
+    </section>
+    
+    <!-- 2단계: Need (필요) -->
+    <section class="need fade-in">
+        <div class="container">
+            <h2>멀리 떨어져 사는 자녀들과 함께 하는 소중한 시간</h2>
+            <p>바쁜 일상 속에서 자녀들과 함께하는 시간이 점점 줄어들고 있습니다.<br>
+            이제는 가족이 함께할 수 있는 순간을 영원히 남겨보세요.</p>
+            <p class="highlight-text">"가족 사진 한 장이 수천 마디 말보다 값진 추억이 됩니다.<br>
+            이 소중한 순간을 놓치지 마세요."</p>
+            <p>아이들, 손주들과 함께하는 가족사진으로 영원한 추억을 만들어보세요.</p>
+        </div>
+    </section>
+    
+    <!-- 3단계: Go (출발) -->
+    <section class="go fade-in">
+        <div class="container">
+            <h2>춘천 더홍스튜디오에서 특별한 가족사진을</h2>
+            <p style="text-align: center; margin-bottom: 40px;">전문 사진작가가 여러분의 가족 이야기를 아름답게 담아드립니다</p>
+            
+            <div class="go-content">
+                <div class="go-text">
+                    <h3>편안한 환경에서 즐거운 촬영</h3>
+                    <ul class="studio-features">
+                        <li>넓고 쾌적한 200평 규모의 스튜디오</li>
+                        <li>어르신들을 위한 휴식 공간 마련</li>
+                        <li>가족 모두가 편안하게 촬영할 수 있는 환경</li>
+                        <li>자연광이 들어오는 따뜻한 촬영 공간</li>
+                        <li>이동이 불편하신 분들을 위한 편의시설</li>
+                        <li>무료 주차 공간 완비</li>
+                    </ul>
+                    <a href="#booking" class="btn" style="margin-top: 20px;">더홍스튜디오 방문하기</a>
+                </div>
+                
+                <div class="go-gallery">
+                    <img src="https://thehong.kr/file/cheditor/20241119161742_tusmyifl.jpg" alt="스튜디오" class="studio-image">
+                    <img src="https://thehong.kr/file/cheditor/20241119160926_yofivivw.jpg" alt="가족사진" class="studio-image">
+                    <img src="https://thehong.kr/file/gallery/1215_1.jpg" alt="소품" class="studio-image">
+                    <img src="https://thehong.kr/file/gallery/1211_1.jpg" alt="카메라" class="studio-image">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 4단계: Search (탐색) -->
+    <section class="search fade-in">
+        <div class="container">
+            <h2>어르신도 편안한 가족사진 촬영 과정</h2>
+            <p style="text-align: center; margin-bottom: 30px;">복잡한 절차 없이 편안하게 진행되는 가족사진 촬영, 모든 과정을 도와드립니다</p>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-icon">📞</div>
+                    <h3>1. 간편 예약</h3>
+                    <p>전화나 온라인으로 쉽게 예약이 가능합니다</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">🚗</div>
+                    <h3>2. 편안한 방문</h3>
+                    <p>넓은 주차장과 접근성 좋은 스튜디오</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">👨‍👩‍👧‍👦</div>
+                    <h3>3. 즐거운 촬영</h3>
+                    <p>경험 많은 작가가 자연스러운 표정을 이끌어 냅니다</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">🖼️</div>
+                    <h3>4. 사진 선택</h3>
+                    <p>촬영 후 마음에 드는 사진을 고르실 수 있어요</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-icon">🎁</div>
+                    <h3>5. 작품 완성</h3>
+                    <p>고급 액자에 담긴 사진을 소중히 전달해 드립니다</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="font-weight: 600; color: #5d4037; margin-bottom: 20px;">누구나 쉽고 편안하게 이용하실 수 있습니다</p>
+                <a href="#booking" class="btn">지금 예약하기</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 5단계: Find (발견) -->
+    <section class="find fade-in">
+        <div class="container">
+            <h2>우리 가족의 특별한 순간을 담아내는 작품</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px;">소중한 가족과 함께한 시간이 아름다운 기억으로 남습니다</p>
+            
+            <div class="find-content">
+                <div class="gallery-wrapper">
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/cheditor/20241119160926_yofivivw.jpg" alt="3대가족">
+                            <div class="gallery-overlay">3대가 함께하는 특별한 순간</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/cheditor/20241119161851_rsiiqgqq.jpg" alt="한복가족">
+                            <div class="gallery-overlay">전통 한복을 입은 우아한 가족</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/cheditor/20241119161742_tusmyifl.jpg" alt="스튜디오">
+                            <div class="gallery-overlay">편안한 자연광 스튜디오</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/gallery/1215_1.jpg" alt="손주와 할머니">
+                            <div class="gallery-overlay">손주와 함께하는 행복한 순간</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/gallery/1211_1.jpg" alt="가족 단체">
+                            <div class="gallery-overlay">모든 가족이 함께하는 시간</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://thehong.kr/file/cheditor/20250403163048_mrbvegfa.jpg" alt="흑백 가족사진">
+                            <div class="gallery-overlay">시간이 멈춘 듯한, 클래식한 흑백 촬영</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-weight: 600; color: #5d4037; max-width: 700px; margin: 0 auto 20px;">
+                    "이 순간이 후손들에게 전해질 소중한 가족 유산이 됩니다"
+                </p>
+                
+                <a href="#booking" class="btn">우리 가족의 추억 만들기</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 6단계: Take (획득) -->
+    <section class="take fade-in">
+        <div class="container">
+            <h2 style="color:#d2691e;">더홍스튜디오<br>원본 특가 패키지</h2>
+            <div class="subtitle" style="color:#b97a56; text-align:center; margin-bottom:32px;">원본형 상품 출시!</div>
+            <div class="package-flex" style="display:flex; align-items:center; justify-content:center; gap:24px; margin-bottom:30px;">
+              <div class="package-item" style="background:#f7e3d1; border-radius:12px; padding:18px 16px; text-align:center; min-width:120px;">
+                <div class="package-icon" style="font-size:2.5rem; margin-bottom:8px;">📁</div>
+                <div>1 테마 원본<br><span style="font-size:0.95rem; color:#a67c52;">(15~20컷 내외)</span></div>
+              </div>
+              <div class="plus" style="font-size:2rem; color:#b97a56; font-weight:bold;">+</div>
+              <div class="package-item" style="background:#f7e3d1; border-radius:12px; padding:18px 16px; text-align:center; min-width:120px;">
+                <div class="package-icon" style="font-size:2.5rem; margin-bottom:8px;">🖼️</div>
+                <div>액자 1점<br><span style="font-size:0.95rem; color:#a67c52;">(47×35cm, 수정본 파일 제공)</span></div>
+              </div>
+            </div>
+            <div class="package-price" style="text-align:center; margin:30px 0 18px 0; font-size:1.3rem;">
+              <span>원본패키지</span>
+              <span style="display:inline-block; margin-left:12px; font-size:2.1rem; font-weight:700; color:#d2691e;">35만원</span>
+            </div>
+            <ul class="package-notice" style="background:#f7e3d1; border-radius:10px; padding:18px 16px; font-size:1rem; color:#6d4c2c; margin:0; list-style:disc inside;">
+              <li>테마의 구분은 촬영 구성원, 의상, 배경입니다.</li>
+              <li>1테마당 원본은 15~20컷 내외로 제공됩니다.</li>
+              <li>원본은 선택한 액자 사이즈의 파일크기로 제공됩니다.</li>
+            </ul>
+            <a href="#booking" class="btn btn-large" style="display:block; width:100%; max-width:320px; margin:30px auto 0 auto; background:#8d6e63; color:#fff; font-size:1.2rem; font-weight:700; border:none; border-radius:30px; padding:16px 0; text-align:center; text-decoration:none; transition:background 0.2s; cursor:pointer;">가족사진 예약 문의하기</a>
+        </div>
+    </section>
+
+    <!-- 7단계: Return (귀환) -->
+    <section class="return fade-in">
+        <div class="container">
+            <h2>더홍스튜디오를 다녀가신 고객님들의 이야기</h2>
+            <p style="text-align: center; margin-bottom: 30px;">많은 부모님들이 경험하신 따뜻한 순간들을 소개합니다</p>
+            
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        모든 아이들이 모이기가 쉽지 않았는데, 작가님이 시간을 맞춰주시고 편안한 분위기를 만들어 주셔서 정말 감사했어요. 오랜만에 가족이 모두 함께한 소중한 추억이 생겼습니다.
+                    </div>
+                    <div class="testimonial-author">- 김OO님 (68세) -</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        처음엔 사진 찍는 게 어색했는데, 작가님이 자연스럽게 대화를 이끌어주셔서 모두 즐겁게 촬영했습니다. 액자를 받고 남편과 함께 정말 감동했어요.
+                    </div>
+                    <div class="testimonial-author">- 박OO님 (72세) -</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        손주들을 위해 예약했는데, 스튜디오가 넓고 아이들이 뛰어놀 공간도 있어 좋았습니다. 특히 노부부만 따로 찍어주신 사진이 너무 마음에 들어요.
+                    </div>
+                    <div class="testimonial-author">- 이OO님 (65세) -</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-story">
+                <h3>가족사진으로 이어지는 세대 간의 연결</h3>
+                <div class="story-content">
+                    <div class="story-image">
+                        <img src="https://thehong.kr/file/cheditor/20241119161851_rsiiqgqq.jpg" alt="3대가족 스토리">
+                    </div>
+                    <div class="story-text">
+                        <p>"결혼 50주년을 맞아 모든 자녀와 손주들이 한 자리에 모였습니다. 평소에는 만나기 어려웠는데 이렇게 다 함께 시간을 보내니 너무 행복했어요. 특히 옛날 결혼사진과 요즘 사진을 나란히 두고 보니 세월의 흐름이 느껴져 더욱 의미가 깊었습니다."</p>
+                        <p>더홍스튜디오는 단순히 사진을 찍는 곳이 아닌, 가족의 역사와 이야기를 담아내는 곳입니다. 지금 가족과 함께하는 특별한 순간을 기록해보세요.</p>
+                        <a href="#booking" class="btn">우리 가족 이야기 담기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8단계: Change (변화) -->
+    <section class="change fade-in">
+        <div class="container">
+            <h2>한 장의 가족사진이 가져올 세대를 잇는 행복</h2>
+            <p class="change-message">오늘 찍은 사진이 내일의 소중한 추억이 됩니다</p>
+            
+            <div class="final-cta">
+                <p>가족과 함께한 순간을 영원히 간직하세요.<br>이 시간이 다시 오지 않을 소중한 자산이 됩니다.</p>
+                <a href="#booking" class="btn btn-large">지금 가족사진 예약하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 신청 폼 -->
+    <section class="booking fade-in" id="booking">
+        <div class="container">
+            <h2>가족사진 촬영 예약</h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 1.2rem;">소중한 가족의 추억을 담아드립니다. 아래 정보를 입력해 주시면 연락드리겠습니다.</p>
+            
+            <form class="booking-form">
+                <div class="form-group">
+                    <label for="name">예약자 성함 (필수)</label>
+                    <input type="text" id="name" name="name" required placeholder="홍길동">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">연락처 (필수)</label>
+                    <div style="display: flex; gap: 20px;">
+                        <input type="tel" id="phone1" name="phone1" required maxlength="3" placeholder="010" style="width: 100px; padding: 15px;">
+                        <input type="tel" id="phone2" name="phone2" required maxlength="4" placeholder="1234" style="width: 120px; padding: 15px;">
+                        <input type="tel" id="phone3" name="phone3" required maxlength="4" placeholder="5678" style="width: 120px; padding: 15px;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="concept">원하시는 촬영 컨셉 (필수)</label>
+                    <select id="concept" name="concept" required style="padding: 15px;">
+                        <option value="">컨셉을 선택해주세요</option>
+                        <option value="wedding">웨딩촬영</option>
+                        <option value="casual">캐주얼촬영</option>
+                        <option value="hanbok">한복촬영</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="family_count">참여하실 가족 인원 (필수)</label>
+                    <select id="family_count" name="family_count" required style="padding: 15px;">
+                        <option value="">인원수를 선택해주세요</option>
+                        <option value="2">2명 (부부)</option>
+                        <option value="3">3명</option>
+                        <option value="4">4명</option>
+                        <option value="5">5명</option>
+                        <option value="6">6명</option>
+                        <option value="7">7명 이상</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ages">참여자 연령대 (필수)</label>
+                    <input type="text" id="ages" name="ages" required placeholder="예: 70대, 40대, 10대" style="padding: 15px;">
+                    <small style="color: #666; display: block; margin-top: 10px; font-size: 0.95rem;">* 편안한 촬영을 위한 맞춤 스튜디오 세팅을 준비해 드립니다.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">희망 촬영 날짜</label>
+                    <input type="date" id="date" name="date" style="padding: 15px;">
+                    <small style="color: #666; display: block; margin-top: 10px; font-size: 0.95rem;">* 주말 예약은 최소 2주 전에 부탁드립니다.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">요청사항 또는 궁금하신 점</label>
+                    <textarea id="message" name="message" placeholder="특별히 원하시는 스타일이나 질문이 있으시면 남겨주세요." style="padding: 15px; height: 150px;"></textarea>
+                </div>
+
+                <div class="form-group privacy-form-group" style="margin-top: 30px;">
+                    <div class="privacy-consent">
+                        <div class="privacy-checkbox" onclick="togglePrivacyContent()">
+                            <input type="checkbox" id="privacy-agree" required style="width: 24px; height: 24px;">
+                            <label for="privacy-agree" style="font-size: 1.1rem;">개인정보 수집 및 이용에 동의합니다.</label>
+                            <span class="toggle-privacy-icon" style="margin-left: auto;">▼</span>
+                        </div>
+                        <div class="privacy-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
+                            <div class="privacy-section" style="background-color: #f9f7f5; padding: 15px; margin-top: 10px; border-radius: 8px;">
+                                <h5>가. 수집하는 개인정보 항목</h5>
+                                <ul>
+                                    <li>예약자 성함</li>
+                                    <li>연락처</li>
+                                    <li>촬영 관련 정보(인원, 연령대)</li>
+                                </ul>
+                                <h5 style="margin-top: 15px;">나. 개인정보의 수집 및 이용목적</h5>
+                                <p>수집한 개인정보는 다음 목적으로만 활용됩니다.</p>
+                                <ul>
+                                    <li>가족사진 촬영 예약 및 일정 조율</li>
+                                    <li>촬영 관련 안내 및 상담</li>
+                                    <li>맞춤형 촬영 환경 준비</li>
+                                </ul>
+                                <h5 style="margin-top: 15px;">다. 개인정보의 보유기간</h5>
+                                <ul>
+                                    <li>촬영 완료 후 최대 1년간 보관 후 파기</li>
+                                    <li>정보 삭제 요청 시 즉시 처리</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="btn btn-large">가족사진 촬영 예약하기</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- 위치 / 문의 섹션 -->
+    <section class="location fade-in">
+        <div class="container">
+            <h2>📍 더홍스튜디오 오시는 길</h2>
+            
+            <div class="location-content">
+                <div class="location-info">
+                    <p><strong>주소:</strong> 강원도 춘천시 경춘로 2215 1층</p>
+                    <p><strong>전화:</strong> 010-XXXX-XXXX</p>
+                    <p><strong>운영시간:</strong> 매일 10:00 ~ 19:00</p>
+                    
+                    <div class="location-buttons">
+                        <a href="https://map.naver.com/p/search/%EB%8D%94%ED%99%8D%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4%20%EC%B6%98%EC%B2%9C/place/1593012768?c=13.00,0,0,0,dh&isCorrectAnswer=true" target="_blank" class="btn">네이버 지도</a>
+                        <a href="#" class="btn" style="background-color: #FEE500; color: #333;">카카오채널 (준비중)</a>
+                    </div>
+                </div>
+                
+                <div class="location-map">
+                    <div style="width:100%; height:100%; background-color:#f5f5f5; display:flex; align-items:center; justify-content:center; border-radius:10px;">
+                        <p style="color:#666; text-align:center;">지도 준비중입니다</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <p>© 2025 더홍스튜디오. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToBooking() {
+            const bookingSection = document.getElementById('booking');
+            if (bookingSection) {
+                bookingSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start'
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookingButtons = document.querySelectorAll('.btn[href="#booking"]');
+            bookingButtons.forEach(button => {
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    scrollToBooking();
+                };
+            });
+            
+            handleScrollAnimation();
+        });
+        
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+                
+                if (elementTop < window.innerHeight && elementBottom > 0) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', handleScrollAnimation);
+
+        function togglePrivacyContent() {
+            const privacyContent = document.querySelector('.privacy-content');
+            const toggleIcon = document.querySelector('.toggle-privacy-icon');
+            
+            if (privacyContent.style.maxHeight === '0px' || !privacyContent.style.maxHeight) {
+                privacyContent.style.maxHeight = privacyContent.scrollHeight + 'px';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                privacyContent.style.maxHeight = '0px';
+                toggleIcon.style.transform = 'rotate(0)';
+            }
+        }
+        
+        function updateCountdown() {
+            const now = new Date();
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            const daysLeft = Math.ceil((endOfMonth - now) / (1000 * 60 * 60 * 24));
+            
+            const countdownElement = document.querySelector('.countdown');
+            if (countdownElement) {
+                countdownElement.textContent = `남은 기간: ${daysLeft}일`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+        });
+
+        document.querySelector('.booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 폼 데이터 수집
+            const formData = {
+                name: this.name.value.trim(),
+                phone1: this.phone1.value.trim(),
+                phone2: this.phone2.value.trim(),
+                phone3: this.phone3.value.trim(),
+                concept: this.concept.value,
+                family_count: this.family_count.value,
+                ages: this.ages.value.trim(),
+                date: this.date.value,
+                message: this.message.value.trim()
+            };
+
+            // 디버깅을 위한 로그
+            console.log('전송할 데이터:', formData);
+
+            // API 호출
+            fetch('https://script.google.com/macros/s/AKfycby6kbMwA62PmgU9N3FaozdMDp5C7qEZYJECH5NlyDqKzIuxikm5y9VrV5JaCDsuOQVx/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('예약이 정상적으로 접수되었습니다!');
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+            });
+        });
+
+        function testDoPost() {
+            var e = {
+                postData: {
+                    contents: JSON.stringify({
+                        name: "테스트",
+                        phone1: "010",
+                        phone2: "1234",
+                        phone3: "5678",
+                        concept: "wedding",
+                        family_count: "4",
+                        ages: "70대, 40대, 10대",
+                        date: "2024-06-01",
+                        message: "테스트 메시지"
+                    })
+                }
+            };
+            Logger.log(doPost(e));
+        }
+
+        function doOptions(e) {
+            return ContentService.createTextOutput('')
+                .setMimeType(ContentService.MimeType.TEXT)
+                .addHeader('Access-Control-Allow-Origin', '*')
+                .addHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+                .addHeader('Access-Control-Allow-Headers', 'Content-Type');
+        }
+    </script>
+</body>
+</html> 
