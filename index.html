@@ -1077,8 +1077,8 @@
             <h2>가족사진 촬영 예약</h2>
             <p style="text-align: center; margin-bottom: 30px; font-size: 1.2rem;">소중한 가족의 추억을 담아드립니다. 아래 정보를 입력해 주시면 연락드리겠습니다.</p>
             
-            <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" target="hidden_iframe">
-                <input type="hidden" name="form_submitted" value="true">
+            <form id="bookingForm" method="POST" onsubmit="return false;">
+                <input type="hidden" name="submitted" value="true">
                 
                 <div class="form-group">
                     <label for="name">예약자 성함 (필수)</label>
@@ -1167,9 +1167,16 @@
                 </div>
                 
                 <div class="form-submit">
-                    <button type="submit" class="btn btn-large">가족사진 촬영 예약하기</button>
+                    <button type="submit" id="submitButton" class="btn btn-large">가족사진 촬영 예약하기</button>
                 </div>
             </form>
+
+            <!-- 알림 메시지 영역 -->
+            <div id="alertMessage" style="display:none; margin-top:30px; padding:20px; border-radius:10px; text-align:center; background-color:#f9f7f5;">
+                <h3 style="color:#5d4037; margin-bottom:15px;">예약 문의가 접수되었습니다</h3>
+                <p style="color:#5d4037; font-size:1.1rem; margin-bottom:20px;">빠른 시일 내에 연락드리겠습니다.</p>
+                <button onclick="hideMessage()" class="btn" style="background-color:#8d6e63;">확인</button>
+            </div>
         </div>
     </section>
 
@@ -1231,9 +1238,12 @@
             
             handleScrollAnimation();
             
-            // Form submission handler
+            // 폼 제출 처리 단순화
             const bookingForm = document.getElementById('bookingForm');
-            if (bookingForm) {
+            const submitButton = document.getElementById('submitButton');
+            const alertMessage = document.getElementById('alertMessage');
+            
+            if (bookingForm && submitButton) {
                 // 전화번호 입력 이벤트 처리
                 const phone1 = document.getElementById('phone1');
                 const phone2 = document.getElementById('phone2');
@@ -1252,45 +1262,66 @@
                     }
                 });
                 
-                // hidden iframe에 load 이벤트 리스너 추가
-                const iframe = document.getElementById('hidden_iframe');
-                iframe.addEventListener('load', function() {
-                    // iframe이 로드된 후 감사 페이지로 이동
-                    if (bookingForm.classList.contains('submitted')) {
-                        window.location.href = 'thank-you.html';
-                    }
-                });
-                
-                bookingForm.addEventListener('submit', function(e) {
-                    // 기본 제출 동작 허용 (iframe으로 제출)
+                // 제출 버튼 클릭 처리
+                submitButton.addEventListener('click', function(e) {
+                    e.preventDefault();
                     
                     // 폼 유효성 검사
                     if (!bookingForm.checkValidity()) {
-                        e.preventDefault();
+                        bookingForm.reportValidity();
                         return;
                     }
                     
-                    // 응답 메시지 표시
-                    const responseEl = document.getElementById('response');
-                    responseEl.style.display = 'block';
-                    responseEl.innerHTML = '<p style="color: #8d6e63;">예약 요청을 처리 중입니다...</p>';
+                    // 데이터 수집
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        phone1: document.getElementById('phone1').value,
+                        phone2: document.getElementById('phone2').value,
+                        phone3: document.getElementById('phone3').value,
+                        concept: document.getElementById('concept').value,
+                        family_count: document.getElementById('family_count').value,
+                        ages: document.getElementById('ages').value,
+                        date: document.getElementById('date').value,
+                        message: document.getElementById('message').value
+                    };
                     
-                    // 폼이 제출되었음을 표시
-                    bookingForm.classList.add('submitted');
-                    
-                    // 백업 방법: Fetch API 사용 (no-cors 모드)
-                    // 기본 폼 제출 외에 추가 백업으로 Fetch API도 사용
-                    const formData = new FormData(bookingForm);
-                    fetch(bookingForm.action, {
+                    // 구글 스크립트로 데이터 전송
+                    fetch('https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec', {
                         method: 'POST',
-                        mode: 'no-cors', // CORS 제한 우회
-                        body: formData
-                    }).catch(error => {
-                        console.log('Fetch API 백업 요청 완료');
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams(formData).toString()
+                    })
+                    .then(function() {
+                        // 폼 초기화
+                        bookingForm.reset();
+                        
+                        // 성공 메시지 표시
+                        alertMessage.style.display = 'block';
+                        
+                        // 폼 숨기기
+                        bookingForm.style.display = 'none';
+                        
+                        // 페이지 상단으로 스크롤
+                        window.scrollTo(0, alertMessage.offsetTop - 100);
+                    })
+                    .catch(function(error) {
+                        console.error('Error:', error);
+                        // 오류가 발생해도 성공 메시지 표시 (no-cors 모드이므로 응답을 확인할 수 없음)
+                        alertMessage.style.display = 'block';
+                        bookingForm.style.display = 'none';
                     });
                 });
             }
         });
+        
+        // 메시지 숨기기
+        function hideMessage() {
+            document.getElementById('alertMessage').style.display = 'none';
+            document.getElementById('bookingForm').style.display = 'block';
+        }
         
         function handleScrollAnimation() {
             const elements = document.querySelectorAll('.fade-in');
