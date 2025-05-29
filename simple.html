@@ -91,21 +91,30 @@
         message: document.getElementById('message').value
       };
       
+      // 응답 요소 표시 (로딩 상태)
+      var responseEl = document.getElementById('response');
+      responseEl.style.display = 'block';
+      responseEl.innerHTML = '<p style="color: #8d6e63;">처리 중입니다...</p>';
+      
       // API URL은 배포 후 실제 URL로 변경하세요
       var apiUrl = 'https://script.google.com/macros/s/AKfycbxz_jmtmiE3wHhY9sEEuwBqZFhLOF7-XrLjwQs3LsdhXczzaHW6W29MFh1TiK6sSO64/exec';
       
+      // JSONP 방식으로 시도
       fetch(apiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
+        mode: 'cors', // CORS 모드 명시적 지정
         body: JSON.stringify(formData)
       })
-      .then(response => response.json())
-      .then(data => {
-        var responseEl = document.getElementById('response');
-        responseEl.style.display = 'block';
-        
+      .then(function(response) {
+        console.log('응답 받음:', response);
+        return response.json();
+      })
+      .then(function(data) {
+        console.log('데이터 받음:', data);
         if (data.result === 'success') {
           responseEl.innerHTML = '<p style="color: green;">✅ ' + data.message + '</p>';
           document.getElementById('bookingForm').reset();
@@ -113,10 +122,35 @@
           responseEl.innerHTML = '<p style="color: red;">❌ ' + data.message + '</p>';
         }
       })
-      .catch(error => {
-        document.getElementById('response').style.display = 'block';
-        document.getElementById('response').innerHTML = '<p style="color: red;">❌ 오류가 발생했습니다. 다시 시도해주세요.</p>';
-        console.error('Error:', error);
+      .catch(function(error) {
+        console.error('오류 발생:', error);
+        responseEl.innerHTML = '<p style="color: red;">❌ 오류가 발생했습니다. 다시 시도해주세요.</p>';
+        
+        // 대체 방법: CORS 문제 시 폼 직접 제출
+        var formEl = document.createElement('form');
+        formEl.style.display = 'none';
+        formEl.method = 'POST';
+        formEl.action = apiUrl;
+        
+        // 폼 데이터 추가
+        Object.keys(formData).forEach(function(key) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = formData[key];
+          formEl.appendChild(input);
+        });
+        
+        document.body.appendChild(formEl);
+        setTimeout(function() {
+          try {
+            formEl.submit();
+            responseEl.innerHTML = '<p style="color: green;">✅ 제출 완료! 곧 연락드리겠습니다.</p>';
+            document.getElementById('bookingForm').reset();
+          } catch(submitError) {
+            responseEl.innerHTML = '<p style="color: red;">❌ 제출 중 오류가 발생했습니다. 직접 연락 부탁드립니다.</p>';
+          }
+        }, 1000);
       });
     });
   </script>
