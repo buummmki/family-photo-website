@@ -1024,8 +1024,9 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="handleFormSubmit(); return true;">
+                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="handleFormSubmit(); return true;" data-email="autorespond@example.com">
                     <input type="hidden" name="submitted" value="true">
+                    <input type="hidden" name="source" value="index_2_html">
                     
                     <div style="margin-bottom: 30px;">
                         <label for="name" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--primary-color); font-size: 1.1rem;">예약자 성함 <span style="color: var(--secondary-color);">*</span></label>
@@ -1142,6 +1143,22 @@
                 document.getElementById('bookingForm').style.display = 'none';
                 document.getElementById('alertMessage').style.display = 'block';
                 window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
+                
+                // Google 애널리틱스 이벤트 추적 (있는 경우)
+                if (typeof gtag === 'function') {
+                    gtag('event', 'form_submission', {
+                        'event_category': 'form',
+                        'event_label': 'booking_form'
+                    });
+                }
+                
+                // URL에 성공 파라미터 추가
+                var currentUrl = window.location.href;
+                if (currentUrl.indexOf('?') > 0) {
+                    history.replaceState(null, '', currentUrl + '&success=true');
+                } else {
+                    history.replaceState(null, '', currentUrl + '?success=true');
+                }
             }
         }
         
@@ -1176,6 +1193,15 @@
                     formSubmitSuccess();
                 }
             }, 5000);
+            
+            // 폼이 제출되었음을 로컬 스토리지에 저장
+            try {
+                localStorage.setItem('form_submitted', 'true');
+                localStorage.setItem('form_submitted_time', new Date().toString());
+                localStorage.setItem('form_name', name);
+            } catch (e) {
+                // 로컬 스토리지 사용 불가 시 무시
+            }
             
             return true;
         }
