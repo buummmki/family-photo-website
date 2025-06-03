@@ -1030,7 +1030,7 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="submitForm(); return true;">
+                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="return submitForm();">
                     <input type="hidden" name="submitted" value="true">
                     <input type="hidden" name="source" value="index_2_html">
                     <input type="hidden" id="combined_concepts" name="combined_concepts" value="">
@@ -1201,6 +1201,14 @@
                 alert('필수 항목을 모두 입력해주세요.');
                 return false;
             }
+            
+            // 디버깅 정보
+            console.log("제출 데이터:");
+            console.log("이름:", name);
+            console.log("전화번호:", phone1 + "-" + phone2 + "-" + phone3);
+            console.log("콘셉트:", combinedConcepts);
+            console.log("인원수:", familyCount);
+            console.log("연령대:", ages);
             
             // 제출 버튼 비활성화 및 로딩 표시
             const submitButton = document.querySelector('button[type="submit"]');
