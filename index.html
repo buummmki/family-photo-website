@@ -1213,10 +1213,18 @@
             const form = document.getElementById('bookingForm');
             const formData = new FormData(form);
             
+            // 중요: 필수 필드가 FormData에 포함되어 있는지 확인하고 추가
+            if (!formData.has('name') || formData.get('name') === '') formData.set('name', name);
+            if (!formData.has('combined_concepts') || formData.get('combined_concepts') === '') formData.set('combined_concepts', combinedConcepts);
+            if (!formData.has('concept') && !formData.has('concept_select')) formData.set('concept', combinedConcepts);
+            if (!formData.has('family_count') || formData.get('family_count') === '') formData.set('family_count', familyCount);
+            if (!formData.has('ages') || formData.get('ages') === '') formData.set('ages', ages);
+            
             // URL 인코딩된 데이터 생성
             const urlEncodedData = new URLSearchParams();
             for (const [key, value] of formData.entries()) {
                 urlEncodedData.append(key, value);
+                console.log(`${key}: ${value}`); // 각 필드 로깅
             }
             
             // 디버깅 정보
