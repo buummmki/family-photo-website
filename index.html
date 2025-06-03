@@ -1233,14 +1233,14 @@
             document.getElementById('bookingForm').style.display = 'none';
             document.getElementById('alertMessage').style.display = 'block';
             
-            // 페이지 스크롤
-            const alertMessage = document.getElementById('alertMessage');
-            if (alertMessage) {
-                window.scrollTo({
-                    top: alertMessage.offsetTop - 100,
-                    behavior: 'smooth'
-                });
-            }
+            // 자동 스크롤 코드 제거
+            // const alertMessage = document.getElementById('alertMessage');
+            // if (alertMessage) {
+            //     window.scrollTo({
+            //         top: alertMessage.offsetTop - 100,
+            //         behavior: 'smooth'
+            //     });
+            // }
         }
         
         // iframe 로드 이벤트 처리
