@@ -1024,7 +1024,7 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;">
+                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="return handleFormSubmit();">
                     <input type="hidden" name="submitted" value="true">
                     
                     <div style="margin-bottom: 30px;">
@@ -1131,10 +1131,47 @@
         </div>
     </section>
 
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {formSubmitSuccess()}"></iframe>
     <div id="response" style="margin-top: 20px; padding: 10px; display: none;"></div>
 
     <script>
+        var submitted = false;
+        
+        function formSubmitSuccess() {
+            if(submitted) {
+                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('alertMessage').style.display = 'block';
+                window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
+            }
+        }
+        
+        function handleFormSubmit() {
+            // 모든 필수 필드가 채워져 있는지 확인
+            const name = document.getElementById('name').value.trim();
+            const phone1 = document.getElementById('phone1').value.trim();
+            const phone2 = document.getElementById('phone2').value.trim();
+            const phone3 = document.getElementById('phone3').value.trim();
+            const concept = document.getElementById('concept').value.trim();
+            const familyCount = document.getElementById('family_count').value.trim();
+            const ages = document.getElementById('ages').value.trim();
+            const privacyAgree = document.getElementById('privacy-agree').checked;
+            
+            if (!name || !phone1 || !phone2 || !phone3 || !concept || !familyCount || !ages || !privacyAgree) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return false;
+            }
+            
+            // 제출 버튼 비활성화 및 로딩 표시
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = '제출 중...';
+            
+            // iframe 방식 사용
+            submitted = true; // iframe onload 이벤트에서 사용할 플래그 설정
+            
+            return true; // 폼의 기본 제출 동작 허용
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             // 부드러운 스크롤
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1190,65 +1227,31 @@
                 observer.observe(element);
             });
             
-            // 폼 제출 이벤트 핸들러 추가
-            const form = document.getElementById('bookingForm');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault(); // 기본 제출 동작 방지
-                    
-                    // 폼 데이터 수집 및 검증
-                    const name = document.getElementById('name').value.trim();
-                    const phone1 = document.getElementById('phone1').value.trim();
-                    const phone2 = document.getElementById('phone2').value.trim();
-                    const phone3 = document.getElementById('phone3').value.trim();
-                    const concept = document.getElementById('concept').value.trim();
-                    const familyCount = document.getElementById('family_count').value.trim();
-                    const ages = document.getElementById('ages').value.trim();
-                    
-                    // 필수 항목 검사
-                    if (!name || !phone1 || !phone2 || !phone3 || !concept || !familyCount || !ages) {
-                        alert('필수 항목을 모두 입력해주세요.');
-                        return;
+            // 전화번호 입력 처리
+            const phone1 = document.getElementById('phone1');
+            const phone2 = document.getElementById('phone2');
+            const phone3 = document.getElementById('phone3');
+            
+            if (phone1 && phone2 && phone3) {
+                phone1.addEventListener('input', function() {
+                    if (this.value.length === 3) {
+                        phone2.focus();
                     }
-                    
-                    // FormData 객체 생성
-                    const formData = new FormData(form);
-                    
-                    // URL 인코딩된 문자열로 변환
-                    const urlEncodedData = new URLSearchParams(formData).toString();
-                    
-                    // 데이터 전송
-                    fetch('https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: urlEncodedData
-                    })
-                    .then(response => response.text())
-                    .then(text => {
-                        try {
-                            const data = JSON.parse(text);
-                            if (data.result === 'success') {
-                                // 성공 시 메시지 표시
-                                document.getElementById('bookingForm').style.display = 'none';
-                                document.getElementById('alertMessage').style.display = 'block';
-                                window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
-                            } else {
-                                // 오류 메시지 표시
-                                alert('오류가 발생했습니다: ' + data.message);
-                            }
-                        } catch (e) {
-                            // JSON 파싱 오류
-                            console.error('응답 파싱 오류:', e);
-                            alert('서버 응답을 처리하는 중 오류가 발생했습니다.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('에러:', error);
-                        alert('서버와 통신 중 오류가 발생했습니다.');
-                    });
                 });
+                
+                phone2.addEventListener('input', function() {
+                    if (this.value.length === 4) {
+                        phone3.focus();
+                    }
+                });
+            }
+            
+            // URL 파라미터 확인하여 폼 제출 성공 시 메시지 표시
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('alertMessage').style.display = 'block';
+                window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
             }
         });
         
