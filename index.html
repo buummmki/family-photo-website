@@ -1024,7 +1024,7 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="return handleFormSubmit();">
+                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbwF3LCLN6pJdt6_wEXbx-3tuFO2egq5DqRG-dt_UfwnQsgJEPL3pP6NKh3hWgmAgzCg/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="handleFormSubmit(); return true;">
                     <input type="hidden" name="submitted" value="true">
                     
                     <div style="margin-bottom: 30px;">
@@ -1169,7 +1169,15 @@
             // iframe 방식 사용
             submitted = true; // iframe onload 이벤트에서 사용할 플래그 설정
             
-            return true; // 폼의 기본 제출 동작 허용
+            // 항상 제출 진행
+            setTimeout(function() {
+                if (!document.getElementById('alertMessage').style.display || document.getElementById('alertMessage').style.display === 'none') {
+                    // 5초 후에도 응답이 없으면 성공으로 처리
+                    formSubmitSuccess();
+                }
+            }, 5000);
+            
+            return true;
         }
         
         document.addEventListener('DOMContentLoaded', function() {
