@@ -1187,6 +1187,11 @@
                 return false;
             }
             
+            if (selectedConcepts.length > 2) {
+                alert('촬영 콘셉트는 최대 2개까지만 선택 가능합니다.');
+                return false;
+            }
+            
             // 선택된 콘셉트를 hidden 필드에 저장
             document.getElementById('combined_concepts').value = selectedConcepts.join(', ');
             console.log("선택된 콘셉트:", selectedConcepts.join(', '));
