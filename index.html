@@ -1193,8 +1193,9 @@
             }
             
             // 선택된 콘셉트를 hidden 필드에 저장
-            document.getElementById('combined_concepts').value = selectedConcepts.join(', ');
-            console.log("선택된 콘셉트:", selectedConcepts.join(', '));
+            const combinedConcepts = selectedConcepts.join(', ');
+            document.getElementById('combined_concepts').value = combinedConcepts;
+            console.log("선택된 콘셉트:", combinedConcepts);
             
             if (!name || !phone1 || !phone2 || !phone3 || !familyCount || !ages || !privacyAgree) {
                 alert('필수 항목을 모두 입력해주세요.');
