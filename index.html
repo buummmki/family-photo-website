@@ -1030,7 +1030,7 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="return submitForm();">
+                <form id="bookingForm" style="padding: 50px;" onsubmit="submitFormData(event)">
                     <input type="hidden" name="submitted" value="true">
                     <input type="hidden" name="source" value="index_2_html">
                     <input type="hidden" id="combined_concepts" name="combined_concepts" value="">
@@ -1167,8 +1167,11 @@
             }
         }
         
-        function submitForm() {
-            console.log("폼 제출 시작");
+        // 새로운 폼 제출 함수 - AJAX 방식으로 데이터 전송
+        function submitFormData(event) {
+            event.preventDefault();
+            console.log("AJAX 폼 제출 시작");
+            
             // 필수 필드 검증
             const name = document.getElementById('name').value.trim();
             const phone1 = document.getElementById('phone1').value.trim();
@@ -1195,49 +1198,84 @@
             // 선택된 콘셉트를 hidden 필드에 저장
             const combinedConcepts = selectedConcepts.join(', ');
             document.getElementById('combined_concepts').value = combinedConcepts;
-            console.log("선택된 콘셉트:", combinedConcepts);
             
             if (!name || !phone1 || !phone2 || !phone3 || !familyCount || !ages || !privacyAgree) {
                 alert('필수 항목을 모두 입력해주세요.');
                 return false;
             }
             
-            // 디버깅 정보
-            console.log("제출 데이터:");
-            console.log("이름:", name);
-            console.log("전화번호:", phone1 + "-" + phone2 + "-" + phone3);
-            console.log("콘셉트:", combinedConcepts);
-            console.log("인원수:", familyCount);
-            console.log("연령대:", ages);
-            
             // 제출 버튼 비활성화 및 로딩 표시
             const submitButton = document.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.innerHTML = '제출 중... <span style="display:inline-block;animation:spin 2s linear infinite;">⏳</span>';
             
-            // 제출 상태 설정
-            submitted = true;
+            // FormData 객체 생성
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
             
-            // 서버 응답 타임아웃 처리
-            setTimeout(function() {
-                if (!document.getElementById('alertMessage').style.display || document.getElementById('alertMessage').style.display === 'none') {
-                    console.log("서버 응답 타임아웃, 성공으로 처리");
+            // URL 인코딩된 데이터 생성
+            const urlEncodedData = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                urlEncodedData.append(key, value);
+            }
+            
+            // 디버깅 정보
+            console.log("제출 데이터:");
+            for (const [key, value] of urlEncodedData.entries()) {
+                console.log(key + ": " + value);
+            }
+            
+            // fetch API를 사용하여 서버에 데이터 전송
+            fetch('https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: urlEncodedData.toString()
+            })
+            .then(response => {
+                console.log("서버 응답 상태:", response.status);
+                return response.text();
+            })
+            .then(data => {
+                console.log("서버 응답 데이터:", data);
+                
+                try {
+                    // JSON 응답 파싱 시도
+                    const jsonData = JSON.parse(data);
+                    console.log("파싱된 JSON 응답:", jsonData);
+                    
+                    if (jsonData.result === 'success') {
+                        formSubmitSuccess();
+                    } else {
+                        alert('제출 중 오류가 발생했습니다: ' + jsonData.message);
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '부모님께 가족사진 선물하기';
+                    }
+                } catch (e) {
+                    console.error("응답 파싱 오류:", e);
+                    // 응답을 JSON으로 파싱할 수 없더라도 성공으로 처리
                     formSubmitSuccess();
                 }
-            }, 5000);
-            
-            console.log("폼 제출 처리 완료");
-            return true;
+            })
+            .catch(error => {
+                console.error("네트워크 오류:", error);
+                alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '부모님께 가족사진 선물하기';
+            });
         }
         
         function formSubmitSuccess() {
             console.log("폼 제출 성공 처리");
-            if(submitted) {
-                document.getElementById('bookingForm').style.display = 'none';
-                document.getElementById('alertMessage').style.display = 'block';
-                // 페이지 스크롤 제거
-                // window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
-            }
+            document.getElementById('bookingForm').style.display = 'none';
+            document.getElementById('alertMessage').style.display = 'block';
+        }
+        
+        function submitForm() {
+            // 기존 함수는 남겨두되, 실제로는 사용하지 않음
+            console.log("구 submitForm 함수 호출됨 - 무시됨");
+            return false;
         }
         
         document.addEventListener('DOMContentLoaded', function() {
