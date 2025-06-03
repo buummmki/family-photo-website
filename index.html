@@ -1186,6 +1186,35 @@
             // iframe 방식 사용
             submitted = true; // iframe onload 이벤트에서 사용할 플래그 설정
             
+            // 폼 제출 시도 - 두 가지 방식으로 시도
+            try {
+                // 1. 폼 데이터를 직접 서버로 보내기 (fallback)
+                const form = document.getElementById('bookingForm');
+                const formData = new FormData(form);
+                const urlEncodedData = new URLSearchParams(formData).toString();
+                
+                // Fetch API를 사용한 폼 전송 (iframe이 실패할 경우 백업)
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlEncodedData,
+                    mode: 'no-cors' // CORS 오류 방지
+                })
+                .then(response => {
+                    console.log('Fetch 응답 받음:', response);
+                    // 응답 처리는 하지 않음 (no-cors 모드라서 응답을 읽을 수 없음)
+                    // iframe이 실패할 경우를 대비한 백업 전송일 뿐
+                })
+                .catch(error => {
+                    console.error('Fetch 오류:', error);
+                    // 오류가 발생해도 사용자에게 알리지 않음
+                });
+            } catch (error) {
+                console.error('폼 제출 오류:', error);
+            }
+            
             // 항상 제출 진행
             setTimeout(function() {
                 if (!document.getElementById('alertMessage').style.display || document.getElementById('alertMessage').style.display === 'none') {
