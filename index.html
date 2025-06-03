@@ -1050,22 +1050,22 @@
                     
                     <div style="margin-bottom: 30px;">
                         <label for="concept" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--primary-color); font-size: 1.1rem;">원하시는 촬영 콘셉트 <span style="color: var(--secondary-color);">*</span></label>
-                        <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--light-text);">* 여러 개 선택 가능합니다.</p>
+                        <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--light-text);">* 최대 2개까지 선택 가능합니다.</p>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_casual" name="concept" value="casual" style="width: auto; margin-right: 10px;">
+                                <input type="checkbox" id="concept_casual" name="concept" value="casual" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_casual" style="margin: 0; font-weight: normal;">자연스러운 일상 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_formal" name="concept" value="formal" style="width: auto; margin-right: 10px;">
+                                <input type="checkbox" id="concept_formal" name="concept" value="formal" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_formal" style="margin: 0; font-weight: normal;">격식있는 정장 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_hanbok" name="concept" value="hanbok" style="width: auto; margin-right: 10px;">
+                                <input type="checkbox" id="concept_hanbok" name="concept" value="hanbok" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_hanbok" style="margin: 0; font-weight: normal;">전통 한복 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_anniversary" name="concept" value="anniversary" style="width: auto; margin-right: 10px;">
+                                <input type="checkbox" id="concept_anniversary" name="concept" value="anniversary" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_anniversary" style="margin: 0; font-weight: normal;">기념일/축하 콘셉트</label>
                             </div>
                         </div>
@@ -1156,6 +1156,16 @@
 
     <script>
         var submitted = false;
+        
+        function limitConceptSelection(checkbox) {
+            const checkboxes = document.querySelectorAll('input[name="concept"]');
+            const checkedCount = document.querySelectorAll('input[name="concept"]:checked').length;
+            
+            if (checkedCount > 2) {
+                checkbox.checked = false;
+                alert('촬영 콘셉트는 최대 2개까지만 선택 가능합니다.');
+            }
+        }
         
         function submitForm() {
             console.log("폼 제출 시작");
