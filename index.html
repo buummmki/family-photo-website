@@ -27,6 +27,12 @@
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         
+        /* 로딩 애니메이션 */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         body {
             font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
             line-height: 1.6;
@@ -1024,7 +1030,7 @@
                     <p style="color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 1.1rem;">아래 정보를 입력하시면 빠르게 연락드리겠습니다</p>
                 </div>
                 
-                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="submitted=true; return true;">
+                <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="submitForm(); return true;">
                     <input type="hidden" name="submitted" value="true">
                     <input type="hidden" name="source" value="index_2_html">
                     
@@ -1138,7 +1144,45 @@
     <script>
         var submitted = false;
         
+        function submitForm() {
+            console.log("폼 제출 시작");
+            // 필수 필드 검증
+            const name = document.getElementById('name').value.trim();
+            const phone1 = document.getElementById('phone1').value.trim();
+            const phone2 = document.getElementById('phone2').value.trim();
+            const phone3 = document.getElementById('phone3').value.trim();
+            const concept = document.getElementById('concept').value.trim();
+            const familyCount = document.getElementById('family_count').value.trim();
+            const ages = document.getElementById('ages').value.trim();
+            const privacyAgree = document.getElementById('privacy-agree').checked;
+            
+            if (!name || !phone1 || !phone2 || !phone3 || !concept || !familyCount || !ages || !privacyAgree) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return false;
+            }
+            
+            // 제출 버튼 비활성화 및 로딩 표시
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '제출 중... <span style="display:inline-block;animation:spin 2s linear infinite;">⏳</span>';
+            
+            // 제출 상태 설정
+            submitted = true;
+            
+            // 서버 응답 타임아웃 처리
+            setTimeout(function() {
+                if (!document.getElementById('alertMessage').style.display || document.getElementById('alertMessage').style.display === 'none') {
+                    console.log("서버 응답 타임아웃, 성공으로 처리");
+                    formSubmitSuccess();
+                }
+            }, 5000);
+            
+            console.log("폼 제출 처리 완료");
+            return true;
+        }
+        
         function formSubmitSuccess() {
+            console.log("폼 제출 성공 처리");
             if(submitted) {
                 document.getElementById('bookingForm').style.display = 'none';
                 document.getElementById('alertMessage').style.display = 'block';
