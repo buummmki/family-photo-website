@@ -1033,6 +1033,7 @@
                 <form id="bookingForm" method="POST" action="https://script.google.com/macros/s/AKfycbxE8wDxOBTLIRLsBpUZbrz96YivATBhv4GeIax90VTl4fsIBy1MrqdenoVO3couHYlIaQ/exec" style="padding: 50px;" target="hidden_iframe" onsubmit="submitForm(); return true;">
                     <input type="hidden" name="submitted" value="true">
                     <input type="hidden" name="source" value="index_2_html">
+                    <input type="hidden" id="combined_concepts" name="combined_concepts" value="">
                     
                     <div style="margin-bottom: 30px;">
                         <label for="name" style="display: block; margin-bottom: 10px; font-weight: 600; color: var(--primary-color); font-size: 1.1rem;">예약자 성함 <span style="color: var(--secondary-color);">*</span></label>
@@ -1053,23 +1054,22 @@
                         <p style="margin-bottom: 15px; font-size: 0.9rem; color: var(--light-text);">* 최대 2개까지 선택 가능합니다.</p>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_casual" name="concept" value="casual" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
+                                <input type="checkbox" id="concept_casual" name="concept_select" value="casual" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_casual" style="margin: 0; font-weight: normal;">자연스러운 일상 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_formal" name="concept" value="formal" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
+                                <input type="checkbox" id="concept_formal" name="concept_select" value="formal" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_formal" style="margin: 0; font-weight: normal;">격식있는 정장 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_hanbok" name="concept" value="hanbok" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
+                                <input type="checkbox" id="concept_hanbok" name="concept_select" value="hanbok" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_hanbok" style="margin: 0; font-weight: normal;">전통 한복 콘셉트</label>
                             </div>
                             <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="concept_anniversary" name="concept" value="anniversary" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
+                                <input type="checkbox" id="concept_anniversary" name="concept_select" value="anniversary" style="width: auto; margin-right: 10px;" onclick="limitConceptSelection(this)">
                                 <label for="concept_anniversary" style="margin: 0; font-weight: normal;">복고 콘셉트</label>
                             </div>
                         </div>
-                        <input type="hidden" id="combined_concepts" name="combined_concepts" value="">
                     </div>
                     
                     <div style="margin-bottom: 30px;">
@@ -1158,8 +1158,8 @@
         var submitted = false;
         
         function limitConceptSelection(checkbox) {
-            const checkboxes = document.querySelectorAll('input[name="concept"]');
-            const checkedCount = document.querySelectorAll('input[name="concept"]:checked').length;
+            const checkboxes = document.querySelectorAll('input[name="concept_select"]');
+            const checkedCount = document.querySelectorAll('input[name="concept_select"]:checked').length;
             
             if (checkedCount > 2) {
                 checkbox.checked = false;
@@ -1179,7 +1179,7 @@
             const privacyAgree = document.getElementById('privacy-agree').checked;
             
             // 콘셉트 체크박스 처리
-            const conceptCheckboxes = document.querySelectorAll('input[name="concept"]:checked');
+            const conceptCheckboxes = document.querySelectorAll('input[name="concept_select"]:checked');
             const selectedConcepts = Array.from(conceptCheckboxes).map(cb => cb.value);
             
             if (selectedConcepts.length === 0) {
@@ -1227,7 +1227,8 @@
             if(submitted) {
                 document.getElementById('bookingForm').style.display = 'none';
                 document.getElementById('alertMessage').style.display = 'block';
-                window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
+                // 페이지 스크롤 제거
+                // window.scrollTo(0, document.getElementById('alertMessage').offsetTop - 100);
             }
         }
         
