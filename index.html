@@ -1239,10 +1239,16 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: urlEncodedData.toString()
+                body: urlEncodedData.toString(),
+                mode: 'cors',
+                redirect: 'follow',
+                timeout: 30000 // 30초 타임아웃 설정
             })
             .then(response => {
                 console.log("서버 응답 상태:", response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                }
                 return response.text();
             })
             .then(data => {
@@ -1262,15 +1268,95 @@
                     }
                 } catch (e) {
                     console.error("응답 파싱 오류:", e);
-                    // 응답을 JSON으로 파싱할 수 없더라도 성공으로 처리
-                    formSubmitSuccess();
+                    
+                    // HTML 응답인 경우 처리
+                    if (data.indexOf('<!DOCTYPE html>') !== -1 || data.indexOf('<html') !== -1) {
+                        console.log("HTML 응답 감지됨, 성공으로 처리");
+                        formSubmitSuccess();
+                    } else {
+                        // 기타 오류 처리
+                        console.error("알 수 없는 응답 형식:", data);
+                        alert('응답 처리 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '부모님께 가족사진 선물하기';
+                    }
                 }
             })
             .catch(error => {
                 console.error("네트워크 오류:", error);
-                alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-                submitButton.disabled = false;
-                submitButton.innerHTML = '부모님께 가족사진 선물하기';
+                
+                // 3회까지 자동 재시도
+                const retryCount = parseInt(submitButton.getAttribute('data-retry') || '0');
+                if (retryCount < 3) {
+                    submitButton.setAttribute('data-retry', (retryCount + 1).toString());
+                    submitButton.innerHTML = `재시도 중... (${retryCount + 1}/3)`;
+                    
+                    setTimeout(() => {
+                        console.log(`${retryCount + 1}번째 재시도 중...`);
+                        
+                        // 대체 방법: JSONP 방식 시도
+                        if (retryCount === 2) {
+                            console.log("JSONP 방식으로 시도합니다.");
+                            // 폼 데이터를 직접 전송
+                            const jsonpForm = document.createElement('form');
+                            jsonpForm.method = 'POST';
+                            jsonpForm.action = 'https://script.google.com/macros/s/AKfycbxB8yrc7JdTVMB3FuhxsXtTVFCiq7MEkSq_MnBaHhLbr2iUcP0RFZR5gAyHySfGKLfmhw/exec';
+                            jsonpForm.target = 'hidden_iframe';
+                            
+                            // 폼 데이터 추가
+                            for (const [key, value] of formData.entries()) {
+                                const input = document.createElement('input');
+                                input.type = 'hidden';
+                                input.name = key;
+                                input.value = value;
+                                jsonpForm.appendChild(input);
+                            }
+                            
+                            // 추가 데이터 전송용
+                            const submitted = document.createElement('input');
+                            submitted.type = 'hidden';
+                            submitted.name = 'submitted';
+                            submitted.value = 'true';
+                            jsonpForm.appendChild(submitted);
+                            
+                            // body에 폼 추가하고 제출
+                            document.body.appendChild(jsonpForm);
+                            
+                            // submitted 변수 설정
+                            window.submitted = true;
+                            
+                            // 폼 제출
+                            jsonpForm.submit();
+                            
+                            // 3초 후 성공 처리 (iframe 응답 기다림)
+                            setTimeout(formSubmitSuccess, 3000);
+                            return;
+                        }
+                        
+                        // 일반 fetch 재시도
+                        fetch('https://script.google.com/macros/s/AKfycbxB8yrc7JdTVMB3FuhxsXtTVFCiq7MEkSq_MnBaHhLbr2iUcP0RFZR5gAyHySfGKLfmhw/exec', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: urlEncodedData.toString()
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            console.log("재시도 성공:", data);
+                            formSubmitSuccess();
+                        })
+                        .catch(retryError => {
+                            console.error("재시도 실패:", retryError);
+                            submitFormData(event); // 재귀적으로 다시 시도
+                        });
+                    }, 2000); // 2초 후 재시도
+                } else {
+                    alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '부모님께 가족사진 선물하기';
+                    submitButton.removeAttribute('data-retry');
+                }
             });
         }
         
