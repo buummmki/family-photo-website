@@ -2,7 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="소중한 가족의 시간을 담는 고품격 가족사진 촬영. 원본 패키지 350,000원부터.">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#182B4E">
     <title>가족사진 촬영 | 소중한 추억을 담다</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,17 +51,17 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 20px;
             position: relative;
         }
         
         section {
-            padding: 120px 0;
+            padding: 80px 0;
             position: relative;
         }
         
         h2 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 2rem;
             color: var(--primary-color);
@@ -68,7 +71,7 @@
         }
         
         h3 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
             color: var(--primary-color);
@@ -87,11 +90,11 @@
             display: inline-block;
             background-color: var(--secondary-color);
             color: white;
-            padding: 16px 42px;
+            padding: 16px 32px;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             transition: var(--transition);
             border: none;
             cursor: pointer;
@@ -217,7 +220,7 @@
         }
         
         .hero h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             line-height: 1.2;
             font-weight: 700;
             margin-bottom: 30px;
@@ -225,7 +228,7 @@
         }
         
         .hero-description {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 40px;
             color: var(--text-color);
             max-width: 90%;
@@ -261,7 +264,7 @@
         .promo-package {
             background-color: white;
             border-radius: 6px;
-            padding: 70px 60px;
+            padding: 50px 40px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.1);
             max-width: 1000px;
             margin: -60px auto 80px;
@@ -284,7 +287,7 @@
         
         .promo-package h2 {
             color: var(--primary-color);
-            font-size: 2.8rem;
+            font-size: 2.4rem;
             margin-bottom: 25px;
             letter-spacing: -1px;
         }
@@ -344,7 +347,7 @@
         .package-item {
             background: #FAFAFA;
             border-radius: 6px;
-            padding: 40px 30px;
+            padding: 30px 20px;
             text-align: center;
             flex: 1;
             min-width: 220px;
@@ -373,7 +376,7 @@
         }
         
         .package-item h4 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 15px;
@@ -382,12 +385,12 @@
         
         .package-item p {
             color: var(--light-text);
-            font-size: 1.05rem;
+            font-size: 1rem;
             line-height: 1.5;
         }
         
         .highlight-price {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 800;
             color: var(--secondary-color);
             margin: 30px 0 20px;
@@ -410,7 +413,7 @@
         .package-details {
             background: var(--light-color);
             border-radius: 6px;
-            padding: 40px;
+            padding: 30px;
             margin: 50px 0 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             border: none;
@@ -419,7 +422,7 @@
         .package-details h3 {
             color: var(--primary-color);
             margin-bottom: 30px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             letter-spacing: -0.5px;
             text-align: center;
         }
@@ -435,7 +438,7 @@
         .package-details li {
             position: relative;
             padding-left: 30px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-color);
             line-height: 1.5;
         }
@@ -458,9 +461,351 @@
         }
         
         .promo-package .btn {
-            padding: 18px 45px;
-            font-size: 1.2rem;
+            padding: 16px 35px;
+            font-size: 1.1rem;
             margin-top: 20px;
+        }
+        
+        /* 모바일 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 30px;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            h3 {
+                font-size: 1.6rem;
+            }
+            
+            .hero-content {
+                padding: 120px 0;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            h3 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1.05rem;
+            }
+            
+            .hero-container {
+                min-height: auto;
+            }
+            
+            .hero-image {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                right: 0;
+                top: 0;
+                transform: none;
+                margin: 40px 0 20px;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                padding: 60px 0 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+                font-size: 1rem;
+                width: 100%;
+            }
+            
+            .promo-package {
+                padding: 40px 20px;
+                margin-top: -30px;
+            }
+            
+            .promo-package h2 {
+                font-size: 1.8rem;
+            }
+            
+            .ribbon-container {
+                top: -10px;
+                right: -10px;
+                width: 150px;
+                height: 150px;
+            }
+            
+            .ribbon {
+                top: 30px;
+                right: -40px;
+                font-size: 0.9rem;
+                line-height: 35px;
+                width: 180px;
+            }
+            
+            .highlight-price {
+                font-size: 2.8rem;
+            }
+            
+            .package-flex {
+                gap: 20px;
+            }
+            
+            .package-item {
+                min-width: 140px;
+                padding: 25px 15px;
+            }
+            
+            .package-details ul {
+                grid-template-columns: 1fr;
+            }
+            
+            .package-details {
+                padding: 25px 20px;
+            }
+            
+            /* 타임라인 섹션 모바일 수정 */
+            .search .container > div > div {
+                flex-direction: column;
+                margin-bottom: 60px;
+            }
+            
+            .search .container > div > div > div:first-child {
+                text-align: center;
+                padding-right: 0;
+                order: 2;
+            }
+            
+            .search .container > div > div > div:last-child {
+                text-align: center;
+                padding-left: 0;
+                order: 2;
+            }
+            
+            .search .container > div > div > div:nth-child(2) {
+                margin: 0 auto 30px;
+                order: 1;
+            }
+            
+            /* 중앙 타임라인 선 숨기기 */
+            .search .container > div > div:first-child {
+                display: none;
+            }
+            
+            /* 갤러리 그리드 모바일 수정 */
+            .find .container div[style*="grid-template-columns"] {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            
+            .find .container div[style*="grid-template-columns"] > div {
+                width: 100% !important;
+                height: 250px !important;
+            }
+            
+            /* 모바일에서 이미지 호버 효과 항상 표시 */
+            .find .container div[style*="position: relative; overflow: hidden;"] div[style*="position: absolute; bottom: 0;"] {
+                opacity: 1 !important;
+            }
+            
+            /* Need 섹션 모바일 수정 */
+            .need .container div[style*="display: flex"] {
+                flex-direction: column;
+            }
+            
+            .need .container div[style*="display: flex"] > div {
+                min-width: auto !important;
+            }
+            
+            /* Go 섹션 모바일 수정 */
+            .go .container div[style*="display: flex"] {
+                flex-direction: column;
+            }
+            
+            .go .container div[style*="display: flex"] > div {
+                min-width: auto !important;
+            }
+            
+            .go .container div[style*="display: grid; grid-template-columns: repeat(2, 1fr);"] {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            /* Take 섹션 모바일 수정 */
+            .take .container div[style*="display: flex"] {
+                flex-direction: column;
+            }
+            
+            .take .container div[style*="display: flex"] > div {
+                min-width: auto !important;
+            }
+            
+            /* Return 섹션 모바일 수정 */
+            .return .container div[style*="display: flex; flex-wrap: wrap;"] {
+                flex-direction: column;
+            }
+            
+            .return .container div[style*="display: flex; flex-wrap: wrap;"] > div {
+                min-width: auto !important;
+            }
+            
+            /* 폼 필드 모바일 수정 */
+            .booking .container {
+                padding: 0 15px;
+            }
+            
+            .booking form {
+                padding: 30px 20px;
+            }
+            
+            .booking form div[style*="display: grid; grid-template-columns: repeat(2, 1fr);"] {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            .booking form div[style*="display: flex; gap: 15px;"] {
+                flex-wrap: wrap;
+            }
+            
+            .booking form div[style*="display: flex; gap: 15px;"] input {
+                flex: 1;
+                min-width: 70px;
+            }
+            
+            .booking form input, 
+            .booking form select, 
+            .booking form textarea {
+                padding: 12px !important;
+                font-size: 16px !important; /* 모바일에서 확대 방지 */
+            }
+            
+            #privacy-content div {
+                padding: 15px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            section {
+                padding: 40px 0;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            h3 {
+                font-size: 1.4rem;
+            }
+            
+            p {
+                font-size: 1rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .hero-accent {
+                font-size: 1rem;
+            }
+            
+            .promo-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .limited-offer {
+                font-size: 1.1rem;
+            }
+            
+            .package-details li {
+                font-size: 0.95rem;
+            }
+            
+            /* 초소형 화면 추가 조정 */
+            .ribbon-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .ribbon {
+                font-size: 0.8rem;
+                line-height: 30px;
+                width: 160px;
+                top: 20px;
+                right: -45px;
+            }
+            
+            .highlight-price {
+                font-size: 2.2rem;
+            }
+            
+            .package-flex {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .package-item {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+        
+        /* 입력 필드 포커스 스타일 개선 */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color) !important;
+            box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
+        }
+        
+        /* 모바일에서 입력 필드 포커스 시 확대 방지 */
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
         }
     </style>
 </head>
